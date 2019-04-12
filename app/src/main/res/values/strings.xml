@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">OsrsWiki</string>
+    <string name="preference_file_key">wikis</string>
 </resources>
