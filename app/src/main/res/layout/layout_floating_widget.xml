@@ -1,0 +1,62 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+
+    <RelativeLayout
+        android:id="@+id/relativeLayoutParent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:ignore="UselessParent">
+
+        <!-- this is the collapsed layout -->
+        <RelativeLayout
+            android:id="@+id/layoutCollapsed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <ImageView
+                android:id="@+id/collapsed_iv"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/ic_add_white"/>
+
+            <ImageView
+                android:id="@+id/buttonClose"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="50dp"
+                android:src="@drawable/ic_add_white"/>
+        </RelativeLayout>
+
+        <!-- this is the expanded layout -->
+        <LinearLayout
+            android:id="@+id/layoutExpanded"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#a0c3d7"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/buttonSimplifiedCodingExpanded"
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:backgroundTint="#27F8C7"
+                android:src="@drawable/ic_add_white"
+                tools:ignore="ContentDescription" />
+
+            <WebView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/WVsite"
+                android:focusable="true"
+                android:focusableInTouchMode="true"/>
+
+        </LinearLayout>
+    </RelativeLayout>
+</FrameLayout>
