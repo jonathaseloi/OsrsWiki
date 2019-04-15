@@ -23,14 +23,14 @@
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:layout_marginTop="8dp"
-                android:src="@drawable/ic_add_white"/>
+                android:src="@mipmap/ic_launcher_round"/>
 
             <ImageView
                 android:id="@+id/buttonClose"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_marginLeft="50dp"
-                android:src="@drawable/ic_add_white"/>
+                android:src="@drawable/ic_close"/>
         </RelativeLayout>
 
         <!-- this is the expanded layout -->
@@ -47,7 +47,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="10dp"
                 android:backgroundTint="#27F8C7"
-                android:src="@drawable/ic_add_white"
+                android:src="@drawable/ic_close"
                 tools:ignore="ContentDescription" />
 
             <WebView

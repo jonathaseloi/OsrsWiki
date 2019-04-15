@@ -28,6 +28,16 @@ class MainActivity : AppCompatActivity() , View.OnClickListener{
 
         sharedPreferences()
 
+        buttons()
+
+        radioGroup()
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(this)) {
+            askPermission()
+        }
+    }
+
+    private fun radioGroup() {
         rgWikis.setOnCheckedChangeListener(RadioGroup.OnCheckedChangeListener { group, checkedId ->
             val sharedPrefEdit = getPreferences(Context.MODE_PRIVATE) ?: null
 
@@ -38,6 +48,7 @@ class MainActivity : AppCompatActivity() , View.OnClickListener{
                     putInt(getString(R.string.preference_file_key), 0)
                     apply()
                 }
+                url = "https://oldschool.runescape.wiki/"
             }
 
             if (radio ==rbFandom) {
@@ -45,15 +56,21 @@ class MainActivity : AppCompatActivity() , View.OnClickListener{
                     putInt(getString(R.string.preference_file_key), 1)
                     apply()
                 }
+                url = "https://oldschoolrunescape.fandom.com/wiki/Old_School_RuneScape_Wiki"
             }
         })
+    }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(this)) {
-            askPermission()
-        }
-
+    private fun buttons() {
         var widgetButton = findViewById<Button>(R.id.btCreateWidget)
         widgetButton.setOnClickListener(this)
+
+        var configurationButton = findViewById<Button>(R.id.btConfiguration)
+        configurationButton.setOnClickListener {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                startActivityForResult(Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:$packageName")), 0)
+            }
+        }
     }
 
     private fun sharedPreferences() {

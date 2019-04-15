@@ -8,16 +8,14 @@ import android.content.Intent
 import android.graphics.PixelFormat
 import android.os.Build
 import android.os.IBinder
-import android.view.LayoutInflater
-import android.view.MotionEvent
-import android.view.View
-import android.view.WindowManager
 import android.webkit.WebView
 import android.widget.Toast
 import com.jonathas.eloi.osrswiki.R
-import com.jonathas.eloi.osrswiki.interfaces.IFloatingService
+import android.view.KeyEvent.KEYCODE_BACK
+import android.view.*
 
-class FloatingViewService : Service(), View.OnClickListener, IFloatingService {
+
+class FloatingViewService : Service(), View.OnClickListener {
 
     private var url = "https://oldschool.runescape.wiki/"
 
@@ -33,14 +31,25 @@ class FloatingViewService : Service(), View.OnClickListener, IFloatingService {
         return null
     }
 
-//    override fun onHandleIntent(intent: Intent?) {
-//        url = intent!!.getStringExtra("url")
-//
-//    }
+    override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
+        this.url = (intent.extras!!.get("url") as String).toString()
 
-    @Override
-    override fun setUrl(url: String) {
-        this.url = url
+        val webView = mFloatingView!!.findViewById<WebView>(R.id.WVsite)
+        webView.settings.javaScriptEnabled = true
+        webView.loadUrl(url)
+        webView.setOnKeyListener { v, keyCode, event ->
+            when (keyCode) {
+                KeyEvent.KEYCODE_BACK -> {
+                    if (webView.canGoBack()) {
+                        webView.goBack()
+                    }
+                     true
+                }
+                else -> true
+            }
+        }
+
+        return startId
     }
 
     @TargetApi(Build.VERSION_CODES.O)
@@ -55,7 +64,7 @@ class FloatingViewService : Service(), View.OnClickListener, IFloatingService {
             WindowManager.LayoutParams.WRAP_CONTENT,
             WindowManager.LayoutParams.WRAP_CONTENT,
             WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
-            0,
+            WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL ,
             PixelFormat.TRANSLUCENT
         )
 
@@ -118,6 +127,7 @@ class FloatingViewService : Service(), View.OnClickListener, IFloatingService {
         })
 
         val webView = mFloatingView!!.findViewById<WebView>(R.id.WVsite)
+        webView.settings.javaScriptEnabled = true
         webView.loadUrl(url)
     }
 
