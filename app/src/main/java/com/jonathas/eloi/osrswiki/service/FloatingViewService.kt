@@ -1,7 +1,6 @@
 package com.jonathas.eloi.osrswiki.service
 
 import android.annotation.TargetApi
-import android.app.IntentService
 import android.app.Service
 import android.content.Context
 import android.content.Intent
@@ -9,10 +8,8 @@ import android.graphics.PixelFormat
 import android.os.Build
 import android.os.IBinder
 import android.webkit.WebView
-import android.widget.Toast
-import com.jonathas.eloi.osrswiki.R
-import android.view.KeyEvent.KEYCODE_BACK
 import android.view.*
+import com.jonathas.eloi.osrswiki.R
 
 
 class FloatingViewService : Service(), View.OnClickListener {
@@ -23,6 +20,11 @@ class FloatingViewService : Service(), View.OnClickListener {
     private var mFloatingView: View? = null
     private var collapsedView: View? = null
     private var expandedView: View? = null
+
+    private var initialX: Int = 0
+    private var initialY: Int = 0
+    private var initialTouchX: Float = 0.toFloat()
+    private var initialTouchY: Float = 0.toFloat()
 
     private val isViewCollapsed: Boolean
         get() = mFloatingView == null || mFloatingView!!.findViewById<View>(R.id.layoutCollapsed).visibility == View.VISIBLE
@@ -64,7 +66,7 @@ class FloatingViewService : Service(), View.OnClickListener {
             WindowManager.LayoutParams.WRAP_CONTENT,
             WindowManager.LayoutParams.WRAP_CONTENT,
             WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
-            WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL ,
+            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
             PixelFormat.TRANSLUCENT
         )
 
@@ -84,10 +86,7 @@ class FloatingViewService : Service(), View.OnClickListener {
 
         //adding an touchlistener to make drag movement of the floating widget
         mFloatingView!!.findViewById<View>(R.id.relativeLayoutParent).setOnTouchListener(object : View.OnTouchListener {
-            private var initialX: Int = 0
-            private var initialY: Int = 0
-            private var initialTouchX: Float = 0.toFloat()
-            private var initialTouchY: Float = 0.toFloat()
+
 
             override fun onTouch(v: View, event: MotionEvent): Boolean {
                 when (event.action) {
@@ -96,6 +95,8 @@ class FloatingViewService : Service(), View.OnClickListener {
                         initialY = params.y
                         initialTouchX = event.rawX
                         initialTouchY = event.rawY
+                        params.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+                        mWindowManager!!.updateViewLayout(mFloatingView, params)
                         return true
                     }
 
@@ -107,10 +108,10 @@ class FloatingViewService : Service(), View.OnClickListener {
                             if (isViewCollapsed) {
                                 collapsedView!!.visibility = View.GONE
                                 expandedView!!.visibility = View.VISIBLE
+                                params.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
+                                mWindowManager!!.updateViewLayout(mFloatingView, params)
                             }
                         }
-                        //                        collapsedView.setVisibility(View.GONE);
-                        //                        expandedView.setVisibility(View.VISIBLE);
                         return true
                     }
 
@@ -137,11 +138,25 @@ class FloatingViewService : Service(), View.OnClickListener {
     }
 
     override fun onClick(v: View) {
+        val params = WindowManager.LayoutParams(
+            WindowManager.LayoutParams.WRAP_CONTENT,
+            WindowManager.LayoutParams.WRAP_CONTENT,
+            WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
+            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+            PixelFormat.TRANSLUCENT
+        )
+
         when (v.id) {
             R.id.layoutExpanded -> {
                 //switching views
                 collapsedView!!.visibility = View.VISIBLE
                 expandedView!!.visibility = View.GONE
+
+                params.x = initialX
+                params.y = initialY
+
+                params.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+                mWindowManager!!.updateViewLayout(mFloatingView, params)
             }
 
             R.id.buttonClose ->

@@ -20,8 +20,8 @@
 
             <ImageView
                 android:id="@+id/collapsed_iv"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_marginTop="8dp"
                 android:src="@mipmap/ic_launcher_round"/>
 
@@ -29,7 +29,7 @@
                 android:id="@+id/buttonClose"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_marginLeft="50dp"
+                android:layout_marginStart="40dp"
                 android:src="@drawable/ic_close"/>
         </RelativeLayout>
 

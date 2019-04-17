@@ -13,8 +13,8 @@ import android.widget.Button
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.Toast
-import kotlinx.android.synthetic.main.activity_main.*
 import com.jonathas.eloi.osrswiki.service.FloatingViewService
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() , View.OnClickListener{
 
@@ -62,10 +62,10 @@ class MainActivity : AppCompatActivity() , View.OnClickListener{
     }
 
     private fun buttons() {
-        var widgetButton = findViewById<Button>(R.id.btCreateWidget)
+        var widgetButton = findViewById<Button>(btCreateWidget.id)
         widgetButton.setOnClickListener(this)
 
-        var configurationButton = findViewById<Button>(R.id.btConfiguration)
+        var configurationButton = findViewById<Button>(btConfiguration.id)
         configurationButton.setOnClickListener {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 startActivityForResult(Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:$packageName")), 0)

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.jonathas.eloi.osrswiki">
+          xmlns:tools="http://schemas.android.com/tools" package="com.jonathas.eloi.osrswiki">
 
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
     <uses-permission android:name="android.permission.INTERNET" />
@@ -11,7 +11,10 @@
             android:label="@string/app_name"
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme"
+            android:debuggable="false" tools:ignore="HardcodedDebugMode"
+            android:windowSoftInputMode="stateHidden">
+
         <activity android:name=".MainActivity"
                   android:windowSoftInputMode="adjustResize"
                   android:screenOrientation="portrait">
