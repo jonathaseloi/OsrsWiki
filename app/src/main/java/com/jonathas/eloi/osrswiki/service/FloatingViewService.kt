@@ -1,6 +1,7 @@
 package com.jonathas.eloi.osrswiki.service
 
 import android.annotation.TargetApi
+import android.app.Activity
 import android.app.Service
 import android.content.Context
 import android.content.Intent
@@ -9,6 +10,7 @@ import android.os.Build
 import android.os.IBinder
 import android.webkit.WebView
 import android.view.*
+import com.jonathas.eloi.osrswiki.MainActivity
 import com.jonathas.eloi.osrswiki.R
 
 
@@ -59,7 +61,7 @@ class FloatingViewService : Service(), View.OnClickListener {
         super.onCreate()
 
         //getting the widget layout from xml using layout inflater
-        mFloatingView = LayoutInflater.from(this).inflate(R.layout.layout_floating_widget, null)
+        mFloatingView = LayoutInflater.from(applicationContext).inflate(R.layout.layout_floating_widget, null)
 
         //setting the layout parameters
         val params = WindowManager.LayoutParams(

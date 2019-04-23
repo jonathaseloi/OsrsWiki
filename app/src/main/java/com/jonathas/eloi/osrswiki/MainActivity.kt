@@ -26,39 +26,11 @@ class MainActivity : AppCompatActivity() , View.OnClickListener{
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        sharedPreferences()
-
         buttons()
-
-        radioGroup()
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(this)) {
             askPermission()
         }
-    }
-
-    private fun radioGroup() {
-        rgWikis.setOnCheckedChangeListener(RadioGroup.OnCheckedChangeListener { group, checkedId ->
-            val sharedPrefEdit = getPreferences(Context.MODE_PRIVATE) ?: null
-
-            val radio : RadioButton = this.findViewById(checkedId)
-
-            if (radio == rbWiki) {
-                with (sharedPrefEdit!!.edit()) {
-                    putInt(getString(R.string.preference_file_key), 0)
-                    apply()
-                }
-                url = "https://oldschool.runescape.wiki/"
-            }
-
-            if (radio ==rbFandom) {
-                with (sharedPrefEdit!!.edit()) {
-                    putInt(getString(R.string.preference_file_key), 1)
-                    apply()
-                }
-                url = "https://oldschoolrunescape.fandom.com/wiki/Old_School_RuneScape_Wiki"
-            }
-        })
     }
 
     private fun buttons() {
@@ -73,29 +45,6 @@ class MainActivity : AppCompatActivity() , View.OnClickListener{
         }
     }
 
-    private fun sharedPreferences() {
-        val sharedPref = getSharedPreferences(
-            getString(R.string.preference_file_key), Context.MODE_PRIVATE)
-
-        if (!sharedPref.contains(getString(R.string.preference_file_key))){
-            val sharedPrefEdit = getPreferences(Context.MODE_PRIVATE) ?: null
-            with (sharedPrefEdit!!.edit()) {
-                putInt(getString(R.string.preference_file_key), 0)
-                apply()
-            }
-        }
-
-        if (sharedPref.getInt(getString(R.string.preference_file_key), preferenceWiki) == 0) {
-            url = "https://oldschool.runescape.wiki/"
-            rbWiki.isChecked = true
-            rbFandom.isChecked = false
-        } else {
-            url = "https://oldschoolrunescape.fandom.com/wiki/Old_School_RuneScape_Wiki"
-            rbWiki.isChecked = false
-            rbFandom.isChecked = true
-        }
-    }
-
     @RequiresApi(Build.VERSION_CODES.M)
     fun askPermission() {
         var intent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
@@ -107,7 +56,7 @@ class MainActivity : AppCompatActivity() , View.OnClickListener{
     override fun onClick(v: View) {
 
         var intent2 = Intent(this@MainActivity, FloatingViewService::class.java)
-        intent2.putExtra("url", url)
+        intent2.putExtra("url", "https://oldschool.runescape.wiki/")
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
         {
