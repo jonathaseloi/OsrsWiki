@@ -41,7 +41,7 @@ class FloatingViewService : Service(), View.OnClickListener {
         val webView = mFloatingView!!.findViewById<WebView>(R.id.WVsite)
         webView.settings.javaScriptEnabled = true
         webView.loadUrl(url)
-        webView.setOnKeyListener { v, keyCode, event ->
+        webView.setOnKeyListener { _, keyCode, _ ->
             when (keyCode) {
                 KeyEvent.KEYCODE_BACK -> {
                     if (webView.canGoBack()) {
