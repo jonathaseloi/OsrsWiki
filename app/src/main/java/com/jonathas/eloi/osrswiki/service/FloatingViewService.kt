@@ -53,7 +53,7 @@ class FloatingViewService : Service(), View.OnClickListener {
             }
         }
 
-        return startId
+        return START_REDELIVER_INTENT
     }
 
     @TargetApi(Build.VERSION_CODES.O)
@@ -74,7 +74,7 @@ class FloatingViewService : Service(), View.OnClickListener {
 
         //getting windows services and adding the floating view to it
         mWindowManager = getSystemService(Context.WINDOW_SERVICE) as WindowManager
-        if (mWindowManager != null) {
+        if (mFloatingView != null && mWindowManager != null) {
             mWindowManager!!.addView(mFloatingView, params)
         }
 
