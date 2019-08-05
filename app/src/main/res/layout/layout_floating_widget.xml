@@ -38,15 +38,14 @@
             android:id="@+id/layoutExpanded"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#a0c3d7"
+            android:background="#FF0000"
             android:orientation="vertical"
             android:visibility="gone">
 
             <ImageView
                 android:id="@+id/buttonSimplifiedCodingExpanded"
                 android:layout_width="match_parent"
-                android:layout_height="10dp"
-                android:backgroundTint="#27F8C7"
+                android:layout_height="20dp"
                 android:src="@drawable/ic_close"
                 tools:ignore="ContentDescription" />
 
