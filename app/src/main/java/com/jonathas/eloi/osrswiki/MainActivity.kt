@@ -19,8 +19,6 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() , View.OnClickListener{
 
     private val SYSTEM_ALERT_WINDOW_PERMISSION = 2084
-    val preferenceWiki = 0
-    private var url = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

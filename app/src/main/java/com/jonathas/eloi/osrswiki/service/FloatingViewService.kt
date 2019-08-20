@@ -1,16 +1,16 @@
 package com.jonathas.eloi.osrswiki.service
 
+import android.annotation.SuppressLint
 import android.annotation.TargetApi
-import android.app.Activity
 import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.graphics.PixelFormat
 import android.os.Build
 import android.os.IBinder
+import android.support.annotation.RequiresApi
 import android.webkit.WebView
 import android.view.*
-import com.jonathas.eloi.osrswiki.MainActivity
 import com.jonathas.eloi.osrswiki.R
 
 
@@ -35,6 +35,7 @@ class FloatingViewService : Service(), View.OnClickListener {
         return null
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
         this.url = (intent.extras!!.get("url") as String).toString()
 
@@ -56,7 +57,7 @@ class FloatingViewService : Service(), View.OnClickListener {
         return START_REDELIVER_INTENT
     }
 
-    @TargetApi(Build.VERSION_CODES.O)
+    @SuppressLint("SetJavaScriptEnabled", "InflateParams")
     override fun onCreate() {
         super.onCreate()
 
@@ -64,13 +65,23 @@ class FloatingViewService : Service(), View.OnClickListener {
         mFloatingView = LayoutInflater.from(applicationContext).inflate(R.layout.layout_floating_widget, null)
 
         //setting the layout parameters
-        val params = WindowManager.LayoutParams(
-            WindowManager.LayoutParams.WRAP_CONTENT,
-            WindowManager.LayoutParams.WRAP_CONTENT,
-            WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
-            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
-            PixelFormat.TRANSLUCENT
-        )
+        val params : WindowManager.LayoutParams
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            params = WindowManager.LayoutParams(
+                WindowManager.LayoutParams.WRAP_CONTENT,
+                WindowManager.LayoutParams.WRAP_CONTENT,
+                WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
+                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+                PixelFormat.TRANSLUCENT)
+        } else {
+            params = WindowManager.LayoutParams(
+                WindowManager.LayoutParams.WRAP_CONTENT,
+                WindowManager.LayoutParams.WRAP_CONTENT,
+                WindowManager.LayoutParams.TYPE_PHONE,
+                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+                PixelFormat.TRANSLUCENT)
+        }
 
         //getting windows services and adding the floating view to it
         mWindowManager = getSystemService(Context.WINDOW_SERVICE) as WindowManager
@@ -90,6 +101,7 @@ class FloatingViewService : Service(), View.OnClickListener {
         mFloatingView!!.findViewById<View>(R.id.relativeLayoutParent).setOnTouchListener(object : View.OnTouchListener {
 
 
+            @SuppressLint("ClickableViewAccessibility")
             override fun onTouch(v: View, event: MotionEvent): Boolean {
                 when (event.action) {
                     MotionEvent.ACTION_DOWN -> {
@@ -139,14 +151,26 @@ class FloatingViewService : Service(), View.OnClickListener {
         if (mFloatingView != null) mWindowManager!!.removeView(mFloatingView)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onClick(v: View) {
-        val params = WindowManager.LayoutParams(
-            WindowManager.LayoutParams.WRAP_CONTENT,
-            WindowManager.LayoutParams.WRAP_CONTENT,
-            WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
-            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
-            PixelFormat.TRANSLUCENT
-        )
+        //setting the layout parameters
+        val params : WindowManager.LayoutParams
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            params = WindowManager.LayoutParams(
+                WindowManager.LayoutParams.WRAP_CONTENT,
+                WindowManager.LayoutParams.WRAP_CONTENT,
+                WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
+                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+                PixelFormat.TRANSLUCENT)
+        } else {
+            params = WindowManager.LayoutParams(
+                WindowManager.LayoutParams.WRAP_CONTENT,
+                WindowManager.LayoutParams.WRAP_CONTENT,
+                WindowManager.LayoutParams.TYPE_PHONE,
+                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+                PixelFormat.TRANSLUCENT)
+        }
 
         when (v.id) {
             R.id.layoutExpanded -> {
