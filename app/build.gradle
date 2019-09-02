@@ -10,8 +10,8 @@ android {
         applicationId "com.jonathas.eloi.osrswiki"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 9
-        versionName "1.2.4"
+        versionCode 10
+        versionName "1.2.5"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

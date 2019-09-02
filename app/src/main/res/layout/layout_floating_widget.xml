@@ -16,7 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <ImageView
                 android:id="@+id/collapsed_iv"
@@ -40,14 +40,27 @@
             android:layout_height="match_parent"
             android:background="#FF0000"
             android:orientation="vertical"
-            android:visibility="gone">
+            android:visibility="visible">
 
-            <ImageView
-                android:id="@+id/buttonSimplifiedCodingExpanded"
-                android:layout_width="match_parent"
-                android:layout_height="20dp"
-                android:src="@drawable/ic_close"
-                tools:ignore="ContentDescription" />
+            <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/rlExpanded">
+
+                <ImageView
+                        android:id="@+id/btnBack"
+                        android:layout_width="100dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_back"
+                        android:background="@color/backBtnBackground"/>
+
+                <ImageView
+                        android:id="@+id/btnClose"
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_close"
+                        android:layout_toEndOf="@id/btnBack" />
+            </RelativeLayout>
 
             <WebView
                 android:layout_width="match_parent"

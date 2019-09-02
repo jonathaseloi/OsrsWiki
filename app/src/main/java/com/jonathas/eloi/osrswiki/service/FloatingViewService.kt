@@ -11,6 +11,7 @@ import android.os.IBinder
 import android.support.annotation.RequiresApi
 import android.webkit.WebView
 import android.view.*
+import android.widget.ImageView
 import com.jonathas.eloi.osrswiki.R
 
 
@@ -144,6 +145,28 @@ class FloatingViewService : Service(), View.OnClickListener {
         val webView = mFloatingView!!.findViewById<WebView>(R.id.WVsite)
         webView.settings.javaScriptEnabled = true
         webView.loadUrl(url)
+
+        //Button to close expanded to floating
+        var ivClose : ImageView = expandedView!!.findViewById(R.id.btnClose)
+
+        ivClose.setOnClickListener {
+            collapsedView!!.visibility = View.VISIBLE
+            expandedView!!.visibility = View.GONE
+
+            params.x = initialX
+            params.y = initialY
+
+            params.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+            mWindowManager!!.updateViewLayout(mFloatingView, params)
+        }
+
+        //Button to back in webview
+        var ivBack : ImageView = expandedView!!.findViewById(R.id.btnBack)
+        ivBack.setOnClickListener {
+            if (webView.canGoBack()) {
+                webView.goBack()
+            }
+        }
     }
 
     override fun onDestroy() {
@@ -153,38 +176,7 @@ class FloatingViewService : Service(), View.OnClickListener {
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onClick(v: View) {
-        //setting the layout parameters
-        val params : WindowManager.LayoutParams
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            params = WindowManager.LayoutParams(
-                WindowManager.LayoutParams.WRAP_CONTENT,
-                WindowManager.LayoutParams.WRAP_CONTENT,
-                WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
-                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
-                PixelFormat.TRANSLUCENT)
-        } else {
-            params = WindowManager.LayoutParams(
-                WindowManager.LayoutParams.WRAP_CONTENT,
-                WindowManager.LayoutParams.WRAP_CONTENT,
-                WindowManager.LayoutParams.TYPE_PHONE,
-                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
-                PixelFormat.TRANSLUCENT)
-        }
-
         when (v.id) {
-            R.id.layoutExpanded -> {
-                //switching views
-                collapsedView!!.visibility = View.VISIBLE
-                expandedView!!.visibility = View.GONE
-
-                params.x = initialX
-                params.y = initialY
-
-                params.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-                mWindowManager!!.updateViewLayout(mFloatingView, params)
-            }
-
             R.id.buttonClose ->
                 //closing the widget
                 stopSelf()
