@@ -38,6 +38,10 @@ class FloatingViewService : Service(), View.OnClickListener {
 
         val webView = mFloatingView!!.findViewById<WebView>(R.id.WVsite)
         webView.settings.javaScriptEnabled = true
+        webView.scrollBarStyle = View.SCROLLBARS_INSIDE_OVERLAY
+        webView.settings.domStorageEnabled = true
+        webView.settings.useWideViewPort = true
+        webView.settings.loadWithOverviewMode = true
         webView.loadUrl(url)
         webView.setOnKeyListener { _, keyCode, _ ->
             when (keyCode) {
@@ -111,7 +115,7 @@ class FloatingViewService : Service(), View.OnClickListener {
                         //when the drag is ended switching the state of the widget
                         val Xdiff = (event.rawX - initialTouchX).toInt()
                         val Ydiff = (event.rawY - initialTouchY).toInt()
-                        if (Xdiff < 10 && Ydiff < 10) {
+                        if (Xdiff == 0 && Ydiff == 0) {
                             if (isViewCollapsed) {
                                 collapsedView!!.visibility = View.GONE
                                 expandedView!!.visibility = View.VISIBLE
@@ -135,7 +139,12 @@ class FloatingViewService : Service(), View.OnClickListener {
         })
 
         val webView = mFloatingView!!.findViewById<WebView>(R.id.WVsite)
+
+        webView.scrollBarStyle = View.SCROLLBARS_INSIDE_OVERLAY
         webView.settings.javaScriptEnabled = true
+        webView.settings.domStorageEnabled = true
+        webView.settings.useWideViewPort = true
+        webView.settings.loadWithOverviewMode = true
         webView.loadUrl(url)
 
         //Button to close expanded to floating
