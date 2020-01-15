@@ -8,9 +8,16 @@ import android.os.Build
 import android.os.IBinder
 import android.webkit.WebView
 import android.view.*
+import android.webkit.WebViewClient
 import android.widget.ImageView
 import com.jonathas.eloi.osrswiki.R
-
+import android.net.http.SslError
+import android.webkit.SslErrorHandler
+import android.graphics.Bitmap
+import android.webkit.WebResourceRequest
+import android.annotation.TargetApi
+import android.support.v4.content.ContextCompat.getSystemService
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 
 class FloatingViewService : Service(), View.OnClickListener {
 
@@ -42,6 +49,24 @@ class FloatingViewService : Service(), View.OnClickListener {
         webView.settings.domStorageEnabled = true
         webView.settings.useWideViewPort = true
         webView.settings.loadWithOverviewMode = true
+        webView.webViewClient = object : WebViewClient() {
+            override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
+                view.loadUrl(url)
+                return true
+            }
+
+            @TargetApi(Build.VERSION_CODES.N)
+            override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean {
+                view.loadUrl(request.url.toString())
+                return true
+                //return super.shouldOverrideUrlLoading(view, request);
+            }
+
+            override fun onReceivedSslError(view: WebView, handler: SslErrorHandler, er: SslError) {
+                handler.proceed()
+            }
+        }
+        webView.settings.userAgentString = "Android WebView"
         webView.loadUrl(url)
         webView.setOnKeyListener { _, keyCode, _ ->
             when (keyCode) {
@@ -145,6 +170,24 @@ class FloatingViewService : Service(), View.OnClickListener {
         webView.settings.domStorageEnabled = true
         webView.settings.useWideViewPort = true
         webView.settings.loadWithOverviewMode = true
+        webView.webViewClient = object : WebViewClient() {
+            override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
+                view.loadUrl(url)
+                return true
+            }
+
+            @TargetApi(Build.VERSION_CODES.N)
+            override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean {
+                view.loadUrl(request.url.toString())
+                return true
+                //return super.shouldOverrideUrlLoading(view, request);
+            }
+
+            override fun onReceivedSslError(view: WebView, handler: SslErrorHandler, er: SslError) {
+                handler.proceed()
+            }
+        }
+        webView.settings.userAgentString = "Android WebView"
         webView.loadUrl(url)
 
         //Button to close expanded to floating
