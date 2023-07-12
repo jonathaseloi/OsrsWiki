@@ -25,10 +25,10 @@ class FloatingViewService : Service(), View.OnClickListener {
     private var collapsedView: View? = null
     private var expandedView: View? = null
 
-    private var initialX: Int = 0
-    private var initialY: Int = 0
-    private var initialTouchX: Float = 0.toFloat()
-    private var initialTouchY: Float = 0.toFloat()
+    private var initialX: Int = -10
+    private var initialY: Int = -10
+    private var initialTouchX: Float = (-10).toFloat()
+    private var initialTouchY: Float = (-10).toFloat()
 
     private val isViewCollapsed: Boolean
         get() = mFloatingView == null || mFloatingView!!.findViewById<View>(R.id.layoutCollapsed).visibility == View.VISIBLE
@@ -38,14 +38,10 @@ class FloatingViewService : Service(), View.OnClickListener {
     }
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
-        this.url = (intent.extras!!.get("url") as String).toString()
+        this.url = (intent.extras!!.getString("url") as String).toString()
 
         val webView = mFloatingView!!.findViewById<WebView>(R.id.WVsite)
-        webView.settings.javaScriptEnabled = true
         webView.scrollBarStyle = View.SCROLLBARS_INSIDE_OVERLAY
-        webView.settings.domStorageEnabled = true
-        webView.settings.useWideViewPort = true
-        webView.settings.loadWithOverviewMode = true
         webView.webViewClient = object : WebViewClient() {
             @Deprecated("Deprecated in Java")
             override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
@@ -63,7 +59,11 @@ class FloatingViewService : Service(), View.OnClickListener {
                 handler.cancel()
             }
         }
+        webView.settings.javaScriptEnabled = true
         webView.settings.userAgentString = "Android WebView"
+        webView.settings.domStorageEnabled = true
+        webView.settings.useWideViewPort = true
+        webView.settings.loadWithOverviewMode = true
         webView.loadUrl(url)
         webView.setOnKeyListener { _, keyCode, _ ->
             when (keyCode) {
@@ -162,9 +162,11 @@ class FloatingViewService : Service(), View.OnClickListener {
 
         webView.scrollBarStyle = View.SCROLLBARS_INSIDE_OVERLAY
         webView.settings.javaScriptEnabled = true
+        webView.settings.userAgentString = "Android WebView"
         webView.settings.domStorageEnabled = true
         webView.settings.useWideViewPort = true
         webView.settings.loadWithOverviewMode = true
+        webView.loadUrl(url)
         webView.webViewClient = object : WebViewClient() {
             @Deprecated("Deprecated in Java")
             override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
@@ -182,8 +184,6 @@ class FloatingViewService : Service(), View.OnClickListener {
                 handler.cancel()
             }
         }
-        webView.settings.userAgentString = "Android WebView"
-        webView.loadUrl(url)
 
         //Button to close expanded to floating
         val ivClose : ImageView = expandedView!!.findViewById(R.id.btnClose)
