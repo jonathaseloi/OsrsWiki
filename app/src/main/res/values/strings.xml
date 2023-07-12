@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">OsrsWiki</string>
     <string name="preference_file_key">wikis</string>
+    <string name="open_floating_icon">Open Floating Icon</string>
+    <string name="icon_configuration">Permission Configuration</string>
+    <string name="eng">Eng</string>
+    <string name="pt_br">PT-BR (others)</string>
+    <string name="need_to_re_open_icon">Need to re-open icon on change</string>
+    <string name="image">image</string>
 </resources>

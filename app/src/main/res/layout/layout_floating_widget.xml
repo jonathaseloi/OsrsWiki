@@ -3,7 +3,6 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-
     <RelativeLayout
         android:id="@+id/relativeLayoutParent"
         android:layout_width="wrap_content"
@@ -24,13 +23,15 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="8dp"
                 android:scaleType="centerCrop"
-                android:src="@mipmap/ic_launcher_round"/>
+                android:contentDescription="@string/image"
+                android:src="@mipmap/ic_launcher"/>
 
             <ImageView
                 android:id="@+id/buttonClose"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginStart="40dp"
+                android:contentDescription="@string/image"
                 android:src="@drawable/ic_close"/>
         </RelativeLayout>
 
@@ -50,9 +51,10 @@
 
                 <ImageView
                         android:id="@+id/btnBack"
-                        android:layout_width="100dp"
+                        android:layout_width="130dp"
                         android:layout_height="20dp"
                         android:src="@drawable/ic_back"
+                        android:contentDescription="@string/image"
                         android:background="@color/backBtnBackground"/>
 
                 <ImageView
@@ -60,6 +62,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="20dp"
                         android:src="@drawable/ic_close"
+                        android:contentDescription="@string/image"
                         android:layout_toEndOf="@id/btnBack" />
             </RelativeLayout>
 

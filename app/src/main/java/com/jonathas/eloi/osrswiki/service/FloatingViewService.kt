@@ -13,11 +13,8 @@ import android.widget.ImageView
 import com.jonathas.eloi.osrswiki.R
 import android.net.http.SslError
 import android.webkit.SslErrorHandler
-import android.graphics.Bitmap
 import android.webkit.WebResourceRequest
 import android.annotation.TargetApi
-import android.support.v4.content.ContextCompat.getSystemService
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 
 class FloatingViewService : Service(), View.OnClickListener {
 
@@ -50,6 +47,7 @@ class FloatingViewService : Service(), View.OnClickListener {
         webView.settings.useWideViewPort = true
         webView.settings.loadWithOverviewMode = true
         webView.webViewClient = object : WebViewClient() {
+            @Deprecated("Deprecated in Java")
             override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
                 view.loadUrl(url)
                 return true
@@ -59,11 +57,10 @@ class FloatingViewService : Service(), View.OnClickListener {
             override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean {
                 view.loadUrl(request.url.toString())
                 return true
-                //return super.shouldOverrideUrlLoading(view, request);
             }
 
             override fun onReceivedSslError(view: WebView, handler: SslErrorHandler, er: SslError) {
-                handler.proceed()
+                handler.cancel()
             }
         }
         webView.settings.userAgentString = "Android WebView"
@@ -122,8 +119,6 @@ class FloatingViewService : Service(), View.OnClickListener {
 
         //adding an touchlistener to make drag movement of the floating widget
         mFloatingView!!.findViewById<View>(R.id.relativeLayoutParent).setOnTouchListener(object : View.OnTouchListener {
-
-
             override fun onTouch(v: View, event: MotionEvent): Boolean {
                 when (event.action) {
                     MotionEvent.ACTION_DOWN -> {
@@ -138,9 +133,9 @@ class FloatingViewService : Service(), View.OnClickListener {
 
                     MotionEvent.ACTION_UP -> {
                         //when the drag is ended switching the state of the widget
-                        val Xdiff = (event.rawX - initialTouchX).toInt()
-                        val Ydiff = (event.rawY - initialTouchY).toInt()
-                        if (Xdiff == 0 && Ydiff == 0) {
+                        val xdiff = (event.rawX - initialTouchX).toInt()
+                        val ydiff = (event.rawY - initialTouchY).toInt()
+                        if (xdiff == 0 && ydiff == 0) {
                             if (isViewCollapsed) {
                                 collapsedView!!.visibility = View.GONE
                                 expandedView!!.visibility = View.VISIBLE
@@ -171,6 +166,7 @@ class FloatingViewService : Service(), View.OnClickListener {
         webView.settings.useWideViewPort = true
         webView.settings.loadWithOverviewMode = true
         webView.webViewClient = object : WebViewClient() {
+            @Deprecated("Deprecated in Java")
             override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
                 view.loadUrl(url)
                 return true
@@ -180,18 +176,17 @@ class FloatingViewService : Service(), View.OnClickListener {
             override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean {
                 view.loadUrl(request.url.toString())
                 return true
-                //return super.shouldOverrideUrlLoading(view, request);
             }
 
             override fun onReceivedSslError(view: WebView, handler: SslErrorHandler, er: SslError) {
-                handler.proceed()
+                handler.cancel()
             }
         }
         webView.settings.userAgentString = "Android WebView"
         webView.loadUrl(url)
 
         //Button to close expanded to floating
-        var ivClose : ImageView = expandedView!!.findViewById(R.id.btnClose)
+        val ivClose : ImageView = expandedView!!.findViewById(R.id.btnClose)
 
         ivClose.setOnClickListener {
             collapsedView!!.visibility = View.VISIBLE
@@ -205,7 +200,7 @@ class FloatingViewService : Service(), View.OnClickListener {
         }
 
         //Button to back in webview
-        var ivBack : ImageView = expandedView!!.findViewById(R.id.btnBack)
+        val ivBack : ImageView = expandedView!!.findViewById(R.id.btnBack)
         ivBack.setOnClickListener {
             if (webView.canGoBack()) {
                 webView.goBack()
@@ -221,7 +216,6 @@ class FloatingViewService : Service(), View.OnClickListener {
     override fun onClick(v: View) {
         when (v.id) {
             R.id.buttonClose ->
-                //closing the widget
                 stopSelf()
         }
     }

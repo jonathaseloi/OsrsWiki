@@ -10,14 +10,56 @@
         android:gravity="center"
         android:background="@drawable/background">
 
+    <LinearLayout
+            android:id="@+id/LRadio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:orientation="vertical">
+
+        <TextView
+                android:id="@+id/TVMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/need_to_re_open_icon"
+                android:textColor="@android:color/white" />
+
+        <RadioGroup
+                android:id="@+id/radioGroupLanguage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+            <RadioButton
+                    android:id="@+id/radioButtonEng"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/eng"
+                    android:textColor="@android:color/white"
+                    android:textColorHint="@android:color/white"
+                    app:buttonTint="@android:color/white" />
+
+            <RadioButton
+                    android:id="@+id/radioButtonPtBr"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/pt_br"
+                    android:textColor="@android:color/white"
+                    android:textColorHint="@android:color/white"
+                    app:buttonTint="@android:color/white" />
+
+        </RadioGroup>
+    </LinearLayout>
+
     <Button
             android:id="@+id/btCreateWidget"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/LRadio"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="30dp"
             android:padding="20dp"
-            android:text="Open Floating Icon"
+            android:text="@string/open_floating_icon"
             android:background="@drawable/button"/>
 
     <Button
@@ -27,8 +69,8 @@
             android:layout_below="@id/btCreateWidget"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="30dp"
-            android:text="Configuration"
+            android:background="@drawable/button"
             android:padding="20dp"
-            android:background="@drawable/button" />
+            android:text="@string/icon_configuration" />
 
 </RelativeLayout>
